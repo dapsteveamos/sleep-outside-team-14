@@ -156,16 +156,61 @@ button {
 }
 /* End product list card */
 
-.product-detail {
+main .container{
+  position: relative;
+  
+}
+
+
+.container  .product-detail {
   padding: 1em;
   max-width: 500px;
   margin: auto;
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  top:3rem
+}
+.product-detail[active]{
+  opacity: 1;
 }
 
 .product-detail img {
   width: 100%;
+  animation-name: fade;
+  animation-duration: 1.5s;
+  }
+  
+  @keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+  }
+
+.container .arrow-right{
+  position: absolute;
+   top: 50%;
+   color: var(--dark-grey);
+   background: none;
+   cursor: pointer;
+   font-size: 40px;
+   right:1rem;
 }
 
+
+.container .arrow-left{
+  position: absolute;
+  top: 50%;
+  color: var(--dark-grey);
+  background: none;
+  cursor: pointer;
+  font-size: 40px;
+  left: 1rem;
+  font-size: 40px;
+}
+
+#btn:focus{
+  color: #f0a868;
+}
 /* Start cart list card styles */
 .cart-card {
   display: grid;
@@ -233,4 +278,68 @@ footer {
   border-radius: 5px;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+}
+
+.discount-badge {
+  background-color: white;
+  color: var(--primary-color);
+  padding: 2px 5px;
+  border: 2px solid var(--primary-color);
+  border-radius: 5px;
+  font-weight: bold;
+  display: inline-block;
+  margin-left: 10px;
+}
+
+dialog {
+  border: 1px solid rgb(0 0 0 / 0.1);
+  border-radius: 0.25rem;
+  padding: 2rem;
+  background-color: var(--light-grey);
+  box-shadow: 0 0 3rem #777;
+  width: 90%;
+  max-width: 600px;
+  text-align: left;
+}
+
+#closeModal {
+  background-color: transparent;
+  border: none;
+  font-size: 1.5em;
+  cursor: pointer;
+  float: right;
+}
+
+.product-detail-content {
+  margin-top: 10px;
+}
+
+dialog[open] {
+  display: block;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+dialog button:hover {
+  background-color: var(--primary-color);
+}
+
+@keyframes shake {
+  0% { transform: translate(0); }  
+  25% { transform: translate(-5px, 0); }  
+  50% { transform: translate(5px, 0); }  
+  75% { transform: translate(-5px, 0); }  
+  100% { transform: translate(0); }  
+}  
+
+@keyframes colorChange {  
+  0% { fill: #f0a868; } /* Initial color */  
+  50% { fill: #ff6f61; } /* Change to a noticeable color */  
+  100% { fill: #f0a868; } /* Back to original */  
+}  
+
+.cart-icon-animate {  
+  animation: shake 0.5s ease, colorChange 0.5s ease; /* Combined animations */  
 }

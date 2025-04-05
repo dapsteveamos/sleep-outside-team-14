@@ -1,6 +1,11 @@
-import { setLocalStorage, getLocalStorage } from "./utils.mjs";
+import { setLocalStorage, getLocalStorage, alertMessage, removeAllAlerts } from "./utils.mjs";
 
 function productDetailsTemplate(product) {
+  const discountPercentage = ((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice) * 100;
+  const discountMarkup = discountPercentage > 0
+  ? `<span class= "discount-badge">-${Math.round(discountPercentage)}%</span>`
+  : '';
+
   return `<section class="product-detail"> <h3>${product.Brand.Name}</h3>
     <h2 class="divider">${product.NameWithoutBrand}</h2>
     <img
@@ -8,7 +13,8 @@ function productDetailsTemplate(product) {
       src="${product.Images.PrimaryLarge}"
       alt="${product.NameWithoutBrand}"
     />
-    <p class="product-card__price">$${product.FinalPrice}</p>
+    <p class="product-card__price">$${product.FinalPrice} ${discountMarkup}
+    </p>
     <p class="product__color">${product.Colors[0].ColorName}</p>
     <p class="product__description">
     ${product.DescriptionHtmlSimple}
@@ -34,7 +40,7 @@ export default class ProductDetails {
     // Notice the .bind(this). Our callback will not work if we don't include that line. Review the readings from this week on 'this' to understand why.
     const quantityField = document.getElementById("quantity")
     let quantity = quantityField.value
-    this.product.quantity = quantity
+    this.product.quantity = parseInt(quantity)
     document
       .getElementById("addToCart")
       .addEventListener("click", this.addToCart.bind(this));
@@ -48,7 +54,32 @@ export default class ProductDetails {
     // then add the current product to the list
     cartContents.push(this.product);
     setLocalStorage("so-cart", cartContents);
+
+    // Call the function to animate cart icon
+    this.animateCartIcon();
+    
+    // Call the function to display alert message
+    alertMessage("Cart updated");
+    
+    
+    // Call the function to remove alerts
+    setTimeout(removeAllAlerts, 5000);
   }
+
+  // Function to animate the cart icon
+  animateCartIcon() {
+    const cartIcon = document.querySelector('.cart svg');
+    if (cartIcon) {
+      cartIcon.classList.add('cart-icon-animate');
+  
+      // Remove the class after the animation ends to allow it to be re-triggered later
+      cartIcon.addEventListener('animationed', () => {
+        cartIcon.classList.remove('cart-icon-animate');
+      }, {once: true});
+    }main
+  }
+
+
   renderProductDetails(selector) {
     const element = document.querySelector(selector);
     element.insertAdjacentHTML(
