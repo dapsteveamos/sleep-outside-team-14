@@ -15,6 +15,7 @@ function productDetailsTemplate(product) {
     </p>
     <div class="product-detail__add">
       <button id="addToCart" data-id="${product.Id}">Add to Cart</button>
+      <input type="number" name="quantity" id="quantity" placeholder="Quantity">
     </div></section>`;
 }
 
@@ -31,6 +32,9 @@ export default class ProductDetails {
     this.renderProductDetails("main");
     // once the HTML is rendered we can add a listener to Add to Cart button
     // Notice the .bind(this). Our callback will not work if we don't include that line. Review the readings from this week on 'this' to understand why.
+    const quantityField = document.getElementById("quantity")
+    let quantity = quantityField.value
+    this.product.quantity = quantity
     document
       .getElementById("addToCart")
       .addEventListener("click", this.addToCart.bind(this));
